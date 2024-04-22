@@ -6,13 +6,13 @@ from pygame.locals import Rect, QUIT, KEYDOWN, \
     K_LEFT, K_RIGHT, K_SPACE
 
 pygame.init()
-pygame.key.set_repeat(5, 5)
+pygame.key.set_repeat(5, 5) # pygame.key.set_repeat(delay, interval) mil sec
 SURFACE = pygame.display.set_mode((600, 600))
 FPSCLOCK = pygame.time.Clock()
 
 class Drawable:
     """ 전체 화면 오브젝트 슈퍼 클래스 : 全ての 描画 オブジェクト の スー パー クラス(Subete no byōga obujekuto no sūpākurasu) """
-    def __init__(self, rect, offset0, offset1):
+    def __init__(self, rect, offset0, offset1): # self: 파이썬에서 클래스의 메서드는 첫 번째 매개변수로 항상 자신을 참조하는 self 매개변수를 가져야 합니다. 이를 통해 클래스의 속성과 메서드에 접근할 수 있습니다.
         strip = pygame.image.load("strip.png")
         self.images = (pygame.Surface((24, 24), pygame.SRCALPHA),
                        pygame.Surface((24, 24), pygame.SRCALPHA))
@@ -29,7 +29,7 @@ class Drawable:
         self.rect.move_ip(diff_x, diff_y)
 
     def draw(self):
-        """ 객체 그리기 : オ ブ ジェ ク ト を 描画 (Obujekuto o byōga)"""
+        """ 객체 그리기..이미지를 불러온다..: オ ブ ジェ ク ト を 描画 (Obujekuto o byōga)"""
         image = self.images[0] if self.count % 2 == 0 \
                 else self.images[1]
         SURFACE.blit(image, self.rect.topleft)
@@ -77,7 +77,7 @@ def main():
     ship = Ship()
     beam = Beam()
 
-    # 외계인 배열 초기화:エイリアンの並びを初期化(Eirian no narabi o shokka)
+    # 외계인 배열 초기화:エイリアンの 並 び を 初期化(Eirian no nara bi o sho ki ka)
     for ypos in range(4):
         offset = 96 if ypos < 2 else 144
         for xpos in range(10):
@@ -85,7 +85,7 @@ def main():
             alien = Alien(rect, offset, (4-ypos)*10)
             aliens.append(alien)
 
-    # 폭탄 설정:爆弾を設定(Bakudan o settei)
+    # 폭탄 설정:爆弾 を 設定(Baku dan o sette)
     for _ in range(4):
         bombs.append(Bomb())
 
