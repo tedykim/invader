@@ -11,7 +11,7 @@ SURFACE = pygame.display.set_mode((600, 600))
 FPSCLOCK = pygame.time.Clock()
 
 class Drawable:
-    """ 전체 화면 오브젝트 슈퍼 클래스 : 全ての 描画 オブジェクト の スー パー クラス(Subete no byōga obujekuto no sūpākurasu) """
+    """ 전체 화면 오브젝트 슈퍼 클래스 : 全ての 描画 オブジェクト の スー パー クラス(Zente(Subete) no byōga obujekuto no sūpākurasu) """
     def __init__(self, rect, offset0, offset1): # self: 파이썬에서 클래스의 메서드는 첫 번째 매개변수로 항상 자신을 참조하는 self 매개변수를 가져야 합니다. 이를 통해 클래스의 속성과 메서드에 접근할 수 있습니다.
         strip = pygame.image.load("strip.png")
         self.images = (pygame.Surface((24, 24), pygame.SRCALPHA),
