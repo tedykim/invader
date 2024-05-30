@@ -1,4 +1,7 @@
 ''' invader.py game 구현 '''
+'''
+1.
+'''
 # 각종 lib import
 import sys
 import pygame
