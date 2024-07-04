@@ -5,13 +5,14 @@ from random import randint
 
 # Initialize pygame and set SDL environment variable
 pygame.init()
-pygame.key.set_repeat(5, 5)
+pygame.key.set_repeat(5, 5)  # pygame.key.set_repeat(delay, interval) mil sec
 pygame.display.set_caption("Invader Game")
 
 SURFACE = pygame.display.set_mode((600, 600))
 FPSCLOCK = pygame.time.Clock()
 
 class Drawable:
+    """ 전체 화면 오브젝트 슈퍼 클래스 : 全ての 描画 オブジェクト の スー パー クラス(Zente(Subete) no byōga obujekuto no sūpākurasu) """
     def __init__(self, rect, offset0, offset1):
         strip = pygame.image.load("strip.png")
         self.images = (pygame.Surface((24, 24), pygame.SRCALPHA),
@@ -24,27 +25,33 @@ class Drawable:
                             Rect(offset1, 0, 24, 24))
 
     def move(self, diff_x, diff_y):
+        """ 객체이동: オブジェクトを移動(Obujekuto o idō) """
         self.count += 1
         self.rect.move_ip(diff_x, diff_y)
 
     def draw(self):
+        """ 객체 그리기..이미지를 불러온다..: オ ブ ジェ ク ト を 描画 (Obujekuto o byōga)"""
         image = self.images[0] if self.count % 2 == 0 else self.images[1]
         SURFACE.blit(image, self.rect.topleft)
 
 class Ship(Drawable):
+    """ 자기기계 오브젝트: 自機 オブジェクト(Jibata obujekuto Obujekuto) """
     def __init__(self):
         super().__init__(Rect(300, 550, 24, 24), 192, 192)
 
 class Beam(Drawable):
+     """ 빔 오브젝트:ビーム オブジェクト(Bīmu obujekuto) """
     def __init__(self):
         super().__init__(Rect(300, 0, 24, 24), 0, 24)
 
 class Bomb(Drawable):
+    """ 폭탄 오브젝트:爆弾オブジェクト(Bakudan obujekuto) """
     def __init__(self):
         super().__init__(Rect(300, -50, 24, 24), 48, 72)
         self.time = randint(5, 220)
 
 class Alien(Drawable):
+    """ 외계인 오브젝트:エイリアンオブジェクト(E i Ri An obujekuto) """
     def __init__(self, rect, offset, score):
         super().__init__(rect, offset, offset+24)
         self.score = score
@@ -60,6 +67,7 @@ class RestartButton(Drawable):
         SURFACE.blit(self.image, self.rect.topleft)
 
 def main():
+    """ 메인루틴:メインルーチン(Meinrūchin) """
     sysfont = pygame.font.SysFont(None, 72)
     scorefont = pygame.font.SysFont(None, 36)
     message_clear = sysfont.render("!!CLEARED!!", True, (0, 255, 225))
@@ -78,7 +86,7 @@ def main():
     beam = Beam()
     restart_button = RestartButton()
 
-    # Initialize aliens
+    # 외계인 배열 초기화:エイリアンの 並 び を 初期化(Eirian no nara bi o sho ki ka)
     for ypos in range(4):
         offset = 96 if ypos < 2 else 144
         for xpos in range(10):
@@ -86,7 +94,7 @@ def main():
             alien = Alien(rect, offset, (4-ypos)*10)
             aliens.append(alien)
 
-    # Initialize bombs
+    # 폭탄 설정:爆弾 を 設定(Baku dan o sette)
     for _ in range(4):
         bombs.append(Bomb())
 
@@ -130,10 +138,13 @@ def main():
 
         if not game_over:
             counter += 1
+            # 自機 を 移動 (Jibata ...)
             ship.move(ship_move_x, 0)
+
+            # 빔이동:ビーム を 移動(Bīmu o idō)
             beam.move(0, -15)
 
-            # Alien movement
+            # 외계인 이동:エイリアン を 移動(Eirian o idō)
             area = aliens[0].rect.copy()
             for alien in aliens:
                 area.union_ip(alien.rect)
@@ -156,7 +167,7 @@ def main():
             if area.bottom > 550:
                 game_over = True
 
-            # Bomb movement
+            # 폭탄 이동:爆弾 を移動(Bakudan o idō)
             for bomb in bombs:
                 if bomb.time < counter and bomb.rect.top < 0:
                     enemy = aliens[randint(0, len(aliens) - 1)]
@@ -172,7 +183,7 @@ def main():
                 if bomb.rect.colliderect(ship.rect):
                     game_over = True
 
-            # Beam collision with aliens
+            # Beam collision with aliens : ビーム が エイリアン と 衝突?(Bīmu ga eirian to shōtotsu)
             tmp = []
             for alien in aliens:
                 if alien.rect.collidepoint(beam.rect.center):
@@ -184,6 +195,7 @@ def main():
             if len(aliens) == 0:
                 game_over = True
 
+        # 그리기 : 描画(Byōga)
         SURFACE.fill((0, 0, 0))
         for alien in aliens:
             alien.draw()
