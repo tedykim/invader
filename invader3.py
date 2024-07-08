@@ -40,7 +40,7 @@ class Ship(Drawable):
         super().__init__(Rect(300, 550, 24, 24), 192, 192)
 
 class Beam(Drawable):
-     """ 빔 오브젝트:ビーム オブジェクト(Bīmu obujekuto) """
+    """ 빔 오브젝트:ビーム オブジェクト(Bīmu obujekuto) """
     def __init__(self):
         super().__init__(Rect(300, 0, 24, 24), 0, 24)
 
